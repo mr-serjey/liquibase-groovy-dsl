@@ -135,14 +135,15 @@ Caused by: java.lang.NullPointerException: Cannot invoke "Object.hashCode()" bec
 Interesting that the issue is sensitive to a performance optimization from v5.0.4 and was not appear in v5.0.3:
 
 ```bash
-./gradlew clean test -PgroovyVersion=5.0.0 -PtestProjectGroovyVersion=5.0.4
+./gradlew clean test -PgroovyVersion=3.+ -PtestProjectGroovyVersion=5.0.3
 ```
 
 ### Issue disappears if library and consumer use same major groovy version
-What even more interesting is that if the same liquibase-groovy-dsl has been build using groovy (-PgroovyVersion=5.+):
+What even more interesting is that if the same liquibase-groovy-dsl was built using the same major groovy version as 
+test project, then there is no issue:
 
 ```bash
-./gradlew clean test -PliquibaseVersion=4.+ -PgroovyVersion=3.+ -PtestProjectGroovyVersion=5.0.3 -PtestProjectLiquibaseVersion=4.+
+./gradlew clean test -PgroovyVersion=5.0.0 -PtestProjectGroovyVersion=5.0.4
 ```
 
 
@@ -179,4 +180,5 @@ What even more interesting is that if the same liquibase-groovy-dsl has been bui
 </pre>
 
 So that, based on documentation the liquibase v5 is Java 17, that requires groovy 4 or 5 (NOT 3)
+
 Note: ''- Fails/succeds same way for jdk 11, 17, 21, 25''
